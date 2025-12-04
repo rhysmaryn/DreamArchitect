@@ -57,18 +57,6 @@ export function ImageModal({
                             />
                         </div>
 
-                        {/* Editable Style */}
-                        <div>
-                            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                Style
-                            </label>
-                            <input
-                                value={editStyle}
-                                onChange={(e) => setEditStyle(e.target.value)}
-                                className="w-full mt-2 p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                            />
-                        </div>
-
                         {/* Action Buttons */}
                         <div className="flex flex-wrap gap-3 mt-4">
                             {/* Favorite */}
