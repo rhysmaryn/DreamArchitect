@@ -11,6 +11,8 @@ import { StyleSelector } from './components/StyleSelector';
 import { useAuth } from './contexts/AuthContext';
 import { supabase } from './lib/supabase';
 import { getRandomPrompt } from './utils/randomPrompts';
+import { ImageModal } from './components/ImageModal';
+
 
 function App() {
   const { user, loading: authLoading } = useAuth();
@@ -20,8 +22,10 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const [loadingImages, setLoadingImages] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  useEffect(() => {
+
+    useEffect(() => {
     if (user) {
       loadImages();
     } else {
@@ -261,6 +265,7 @@ function App() {
                     <ImageCard
                       key={image.id}
                       image={image}
+                      onClick={() => setSelectedImage(image)}
                       onFavorite={handleFavorite}
                       onDelete={handleDelete}
                       onRegenerate={handleRegenerate}
@@ -274,6 +279,13 @@ function App() {
       </main>
 
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
+        {selectedImage && (
+            <ImageModal
+                image={selectedImage}
+                onClose={() => setSelectedImage(null)}
+            />
+        )}
+
     </div>
   );
 }

@@ -4,7 +4,7 @@
 
 import { Download, Heart, RefreshCw, Trash2 } from 'lucide-react';
 
-export function ImageCard({ image, onFavorite, onDelete, onRegenerate }) {
+export function ImageCard({ image, onClick, onFavorite, onDelete, onRegenerate }) {
   // Download the image to user's device
   const handleDownload = async () => {
     const link = document.createElement('a');
@@ -18,11 +18,17 @@ export function ImageCard({ image, onFavorite, onDelete, onRegenerate }) {
   return (
     <div className="group relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 border border-gray-200 dark:border-purple-900 animate-fadeIn">
       <div className="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800">
-        <img
-          src={image.image_url}
-          alt={image.prompt}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+          <div
+              onClick={onClick}
+              className="cursor-pointer group relative"
+              >
+              <img
+                  src={image.image_url}
+                  alt={image.prompt}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+          </div>
+
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
