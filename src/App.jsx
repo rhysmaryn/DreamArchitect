@@ -283,6 +283,9 @@ function App() {
             <ImageModal
                 image={selectedImage}
                 onClose={() => setSelectedImage(null)}
+                onFavorite={handleFavorite}
+                onDelete={handleDelete}
+                onRegenerate={handleRegenerate}
             />
         )}
 
