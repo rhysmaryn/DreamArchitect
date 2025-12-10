@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { Sparkles, Loader2, Image as ImageIcon, LogIn } from 'lucide-react';
+import { Heart } from "lucide-react";
 import { Header } from './components/Header';
 import { AuthModal } from './components/AuthModal';
 import { ImageCard } from './components/ImageCard';
@@ -23,6 +24,7 @@ function App() {
   const [images, setImages] = useState([]);
   const [loadingImages, setLoadingImages] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showFavorites, setShowFavorites] = useState(false);
 
 
     useEffect(() => {
@@ -149,6 +151,10 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const visibleImages = showFavorites
+    ? images.filter((img) => img.is_favorite)
+    : images;
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
@@ -243,25 +249,43 @@ function App() {
 
           {user && (
             <div className="max-w-7xl mx-auto">
+              <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2 mb-6">
                 <ImageIcon className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Your Gallery</h3>
+              </div>
+
+              <button
+                  onClick={() => setShowFavorites((prev) => !prev)}
+                  className={`px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold border transition ${
+                    showFavorites
+                      ? 'bg-red-100 text-red-600 border-red-300'
+                      : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                  }`}
+                >
+                  <Heart
+                    className={`w-4 h-4 ${showFavorites ? 'fill-red-600 text-red-600' : ''}`}
+                  />
+                  {showFavorites ? 'Viewing Favorites' : 'View Favorites'}
+                </button>
               </div>
 
               {loadingImages ? (
                 <div className="flex items-center justify-center py-20">
                   <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
                 </div>
-              ) : images.length === 0 ? (
+              ) : visibleImages.length === 0 ? (
                 <div className="text-center py-20">
                   <ImageIcon className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-4" />
                   <p className="text-gray-600 dark:text-gray-400">
-                    No images generated yet. Start creating your dreams!
+                    {showFavorites
+                      ? 'No favorites yet. Tap the heart on any image to save it!'
+                      : 'No images generated yet. Start creating your dreams!'}
                   </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {images.map((image) => (
+                  {visibleImages.map((image) => (
                     <ImageCard
                       key={image.id}
                       image={image}
